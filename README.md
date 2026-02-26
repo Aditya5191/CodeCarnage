@@ -53,7 +53,7 @@ A dual-layer forensic framework:
 
 ## 📂 Project Component Breakdown
 
-Each directory contains a dedicated `README.md` with detailed technical information and usage instructions for that module.
+### Each directory contains a dedicated `README.md` with detailed technical information and usage instructions for that module.
 
 | Component | Directory Path | Description & Key Technologies |
 | :--- | :--- | :--- |
