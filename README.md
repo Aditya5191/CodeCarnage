@@ -54,17 +54,15 @@ A dual-layer forensic framework:
 ## 📂 Project Component Breakdown
 
 ### Each directory contains a dedicated `README.md` with detailed technical information and usage instructions for that module.
-
 | Component | Directory Path | Description & Key Technologies |
 | :--- | :--- | :--- |
-| **Video Modality** | `./video_modality_raw_files/` | Deepfake detection using behavioral and biological (rPPG) signal analysis. |
-| **Image Modality** | `./Image_modality_raw_files/Zero Shot Detection/` | Face-specific and generalized zero-shot synthetic image detection. |
-| **Audio Modality** | `./audio_modality_raw_files/Deepfake Audio Detection/` | MFCC-based synthetic voice detection model. |
-| **Text Misinformation** | External Repository | Hybrid semantic + stylistic AI-generated text detection system. |
-| **Backend** | `./Backend/` | Central API handling model orchestration and response aggregation. |
-| **Frontend** | `./Frontend/` | Interactive web interface for uploading and analyzing content. |
-| **Web Extension** | `./Web-Extension/` | Browser extension enabling real-time misinformation detection while browsing. |
-
+| **Video Modality** | [`./video_modality_raw_files/`](./video_modality_raw_files/) | Deepfake detection using behavioral and biological (rPPG) signal analysis. |
+| **Image Modality** | [`./Image_modality_raw_files/Zero Shot Detection/`](./Image_modality_raw_files/Zero%20Shot%20Detection/) | Face-specific and generalized zero-shot synthetic image detection. |
+| **Audio Modality** | [`./audio_modality_raw_files/Deepfake Audio Detection/`](./audio_modality_raw_files/Deepfake%20Audio%20Detection/) | MFCC-based synthetic voice detection model. |
+| **Text Misinformation** | [External Repository](https://github.com/) | Hybrid semantic + stylistic AI-generated text detection system. |
+| **Backend** | [`./Backend/`](./Backend/) | Central API handling model orchestration and response aggregation. |
+| **Frontend** | [`./Frontend/`](./Frontend/) | Interactive web interface for uploading and analyzing content. |
+| **Web Extension** | [`./Web-Extension/`](./Web-Extension/) | Browser extension enabling real-time misinformation detection while browsing. |
 ---
 
 ## 🚀 Getting Started
