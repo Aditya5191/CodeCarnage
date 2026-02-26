@@ -61,7 +61,6 @@ A dual-layer forensic framework:
 | **Audio Modality** | [`./audio_modality_raw_files/Deepfake Audio Detection/`](./audio_modality_raw_files/Deepfake%20Audio%20Detection/) | MFCC-based synthetic voice detection model. |
 | **Text Misinformation** | [`./text_modality(misinformation)/`](https://github.com/Aditya5191/PARALLAX/tree/main/text_modality(misinformation)) | Hybrid semantic + stylistic AI-generated text detection system. |
 | **Backend** | [`./Backend/`](https://github.com/Aditya5191/PARALLAX/tree/main/Backend) | Central API handling model orchestration and response aggregation. |
-| **Frontend** | [`./Frontend/`](./Frontend/) | Interactive web interface for uploading and analyzing content. |
 | **Web Extension** | [`./Web-Extension/`](./Web-Extension/) | Browser extension enabling real-time misinformation detection while browsing. |
 ---
 
