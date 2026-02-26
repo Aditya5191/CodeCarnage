@@ -59,7 +59,7 @@ A dual-layer forensic framework:
 | **Video Modality** | [`./video_modality_raw_files/`](./video_modality_raw_files/) | Deepfake detection using behavioral and biological (rPPG) signal analysis. |
 | **Image Modality** | [`./Image_modality_raw_files/Zero Shot Detection/`](./Image_modality_raw_files/Zero%20Shot%20Detection/) | Face-specific and generalized zero-shot synthetic image detection. |
 | **Audio Modality** | [`./audio_modality_raw_files/Deepfake Audio Detection/`](./audio_modality_raw_files/Deepfake%20Audio%20Detection/) | MFCC-based synthetic voice detection model. |
-| **Text Misinformation** | [External Repository](https://github.com/) | Hybrid semantic + stylistic AI-generated text detection system. |
+| **Text Misinformation** | [`./text_modality(misinformation)/`](https://github.com/Aditya5191/PARALLAX/tree/main/text_modality(misinformation)) | Hybrid semantic + stylistic AI-generated text detection system. |
 | **Backend** | [`./Backend/`](./Backend/) | Central API handling model orchestration and response aggregation. |
 | **Frontend** | [`./Frontend/`](./Frontend/) | Interactive web interface for uploading and analyzing content. |
 | **Web Extension** | [`./Web-Extension/`](./Web-Extension/) | Browser extension enabling real-time misinformation detection while browsing. |
