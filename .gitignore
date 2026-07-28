@@ -15,12 +15,6 @@ uploads/
 # Machine Learning Models
 ml-models/
 DeepGuardian_Organized/ml-models/
-*.pth
-*.safetensors
-*.h5
-*.joblib
-*.pt
-
 # OS / IDE
 .DS_Store
 .vscode/
@@ -38,3 +32,9 @@ yarn-error.log*
 *.tar
 *.zip
 *.gz
+
+# Ignore huge model
+backend/processors/video/models/checkpoint_epoch_3.pth
+
+# Ignore missing model
+backend/processors/image/models/model.safetensors
