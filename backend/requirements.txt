@@ -1,0 +1,28 @@
+# Flask Web Framework
+Flask==3.0.3
+flask-cors==4.0.0
+Werkzeug==3.0.1
+
+# Machine Learning & AI
+torch==2.3.0
+torchvision==0.18.0
+torchaudio==2.3.0
+transformers==4.40.1
+
+# Audio Processing
+librosa==0.10.1
+soundfile==0.12.1
+
+# Image & Video Processing
+opencv-python==4.9.0.80
+mediapipe==0.10.11
+Pillow==10.3.0
+
+# Scientific & Data Computation
+numpy==1.26.4
+scipy==1.13.0
+scikit-learn==1.4.2
+
+# Utilities
+requests==2.31.0
+python-dotenv==1.0.1
