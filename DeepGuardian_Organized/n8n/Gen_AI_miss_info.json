@@ -1,0 +1,298 @@
+{
+  "name": "Gen_AI_miss_info",
+  "nodes": [
+    {
+      "parameters": {
+        "url": "=https://newsapi.org/v2/everything",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "=q",
+              "value": "={{ $json.body.message }}"
+            },
+            {
+              "name": "language",
+              "value": "en"
+            },
+            {
+              "name": "sortBy",
+              "value": "relevancy"
+            },
+            {
+              "name": "apiKey",
+              "value": "94d94d3f1f034719b84fdad82a71258c"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        48,
+        -176
+      ],
+      "id": "2be47991-0135-45fa-909f-7aa5b3ec16d4",
+      "name": "GET NEWS"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Assume the model output is in variable `response` (like the one you pasted)\nconst raw = $input.first().json.content.parts[0].text\n\n// Step 1: Remove code block markers like ```json ... ```\nconst cleaned = raw.replace(/```json|```/g, '').trim();\n\n// Step 2: Parse it to real JSON\nlet parsed;\ntry {\n  parsed = JSON.parse(cleaned);\n} catch (e) {\n  parsed = { error: \"Invalid JSON returned by model\", raw: cleaned };\n}\n\nreturn parsed;\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        688,
+        0
+      ],
+      "id": "325731b6-d2f4-4e05-b5fa-30fe44289473",
+      "name": "Format the json"
+    },
+    {
+      "parameters": {
+        "modelId": {
+          "__rl": true,
+          "value": "models/gemini-2.5-pro",
+          "mode": "list",
+          "cachedResultName": "models/gemini-2.5-pro"
+        },
+        "messages": {
+          "values": [
+            {
+              "content": "=You are an automated misinformation detection system.\nEvaluate the factual accuracy of a user-submitted message using only the provided data.\n\nUser Message:\n\"{{ $('Input').item.json.body.message }}\"\n\nReference Data (news and fact checks):\n{{ JSON.stringify($json, null, 2) }}\n\nYour Task\n\nAnalyze the reference data to determine whether the user message is supported or contradicted.\nYour evaluation must rely solely on the provided data — do not use external knowledge or assumptions.\n\nOutput Format (strict JSON)\n\n{\n\"verdict\": \"Likely true | Likely misinformation | Unclear\",\n\"confidence\": <integer between 0 and 100>,\n\"reasoning\": \"Concise explanation of how the reference data supports this verdict.\",\n\"sources\": [\n\"https://source1.com\n\",\n\"https://source2.com\n\"\n]\n}\n\nRules\n\nInclude only the top 2 most relevant URLs in sources.\n\nIf no relevant information is found, output:\n\n\"verdict\": \"Likely misinformation\"\n\n\"reasoning\": \"No supporting information or credible reports were found for this claim.\"\n\nMaintain a neutral, factual, and machine-generated tone.\n\nOutput raw JSON only — no code blocks, markdown, or extra commentary.\n\nDo not mention “provided articles,” “provided fact checks,” or “provided content.” Write as if you found the data yourself."
+            }
+          ]
+        },
+        "jsonOutput": true,
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.googleGemini",
+      "typeVersion": 1,
+      "position": [
+        432,
+        0
+      ],
+      "id": "77f58da3-4744-4101-ae2d-78080b60c7cf",
+      "name": "Verify claim!",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "AIzMCtUQnhBMKHfv",
+          "name": "GEN_AI"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "httpMethod": "POST",
+        "path": "miss_info",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2.1,
+      "position": [
+        -288,
+        0
+      ],
+      "id": "309e6e41-b2c4-4d8c-a92f-9436d682a49a",
+      "name": "Input",
+      "webhookId": "d89f7c30-9a24-4271-930d-a63f2c1f5c35"
+    },
+    {
+      "parameters": {
+        "respondWith": "allIncomingItems",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.4,
+      "position": [
+        912,
+        0
+      ],
+      "id": "0f839c8c-d1dd-4c4b-b2ae-2fb5b3c443f3",
+      "name": "Response"
+    },
+    {
+      "parameters": {
+        "url": "https://factchecktools.googleapis.com/v1alpha1/claims:search",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.body.message }}"
+            },
+            {
+              "name": "key",
+              "value": "AIzaSyC6jLzWuigLTrdajJTg3A09G2RqJA81eIk"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        48,
+        0
+      ],
+      "id": "091b3f71-fadf-4f80-8aca-13b899673697",
+      "name": "Fact_check"
+    },
+    {
+      "parameters": {
+        "mode": "combine",
+        "combineBy": "combineByPosition",
+        "numberInputs": 3,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.merge",
+      "typeVersion": 3.2,
+      "position": [
+        304,
+        -16
+      ],
+      "id": "a237c193-931d-4678-9236-d8bfccb41ecb",
+      "name": "Merge"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://api.tavily.com/search",
+        "sendHeaders": true,
+        "headerParameters": {
+          "parameters": [
+            {
+              "name": "Content-Type",
+              "value": "application/json"
+            },
+            {
+              "name": "Authorization",
+              "value": "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"
+            }
+          ]
+        },
+        "sendBody": true,
+        "bodyParameters": {
+          "parameters": [
+            {
+              "name": "query",
+              "value": "={{ $json.body.message }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.3,
+      "position": [
+        48,
+        192
+      ],
+      "id": "0793efac-b05f-422c-ae86-924a64fd6e4b",
+      "name": "Web Search"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "GET NEWS": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format the json": {
+      "main": [
+        [
+          {
+            "node": "Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Verify claim!": {
+      "main": [
+        [
+          {
+            "node": "Format the json",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Input": {
+      "main": [
+        [
+          {
+            "node": "GET NEWS",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Fact_check",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Web Search",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Fact_check": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 1
+          }
+        ]
+      ]
+    },
+    "Merge": {
+      "main": [
+        [
+          {
+            "node": "Verify claim!",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Web Search": {
+      "main": [
+        [
+          {
+            "node": "Merge",
+            "type": "main",
+            "index": 2
+          }
+        ]
+      ]
+    }
+  },
+  "active": true,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "78a89a7f-e085-48b2-ad82-612573ff40e0",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "f904b1823f4c6ce48fd72ee9d3d1a67cc94d90c9d8952478807cdd941aee18cc"
+  },
+  "id": "Ub9vxU9mhs5Yxckz",
+  "tags": []
+}
